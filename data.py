@@ -1,15 +1,17 @@
 import os
+import sys
 
 import pandas as pd
 import numpy as np
 from glob import glob
 from tqdm import tqdm
+from sklearn.preprocessing import MinMaxScaler
 
 from config import DATA_PATH, COI, Input_columns
 
 
 class DataLoader(object):
-    def __init__(self, name="None"):
+    def __init__(self, name="None", down=True):
         self.name = name
         self.raw_df = pd.DataFrame([])
         
@@ -20,7 +22,7 @@ class DataLoader(object):
         self.tar_gear = []
         self.folder = []
         
-        self.get_data()
+        self.get_data(down)
         
     def get_shift_index(self, df):
         prev_gear = df['TarGear'].values[:-1]
@@ -58,7 +60,7 @@ class DataLoader(object):
         self.tar_gear.append(tar)
         self.dfs.append(df[COI])
         
-    def get_shift_data(self, path):
+    def get_shift_data(self, path, down):
         df = pd.read_csv(path)
         
         # insert folder name
@@ -67,6 +69,9 @@ class DataLoader(object):
         up_shift, down_shift = self.get_shift_index(df)
         
         for up_idx in up_shift:
+            if down:
+                break
+            
             is_data, anomaly, sub_df = self.get_interest_rows(df, up_idx)
             if not is_data:
                 continue
@@ -78,16 +83,18 @@ class DataLoader(object):
             is_data, anomaly, sub_df = self.get_interest_rows(df, down_idx)
             if not is_data:
                 continue
+            cur_gear = sub_df['TarGear'].values[0]
+            tar_gear = sub_df['TarGear'].values[1]
             self.stack_data(folder, anomaly, 'D', cur_gear, tar_gear, sub_df.copy())
                 
     def get_raw_data_paths(self):
         return glob(os.path.join(DATA_PATH, '*', 'total_log.csv'))
         
-    def get_data(self):
+    def get_data(self, down):
         data_paths = self.get_raw_data_paths()
         print("[I] Loading Raw Data...")
         for data_path in tqdm(data_paths):
-            self.get_shift_data(data_path)
+            self.get_shift_data(data_path, down)
             
     def split_train_test(self):
         
@@ -112,6 +119,7 @@ class DataLoader(object):
         x = df[Input_columns].values
         
         return x
+        
     
     def get_y(self, i):
         y = self.anomaly[i]
@@ -129,4 +137,37 @@ class DataLoader(object):
         batch_y = np.array([self.get_y(i) for i in self.test_idx])
         
         return batch_x, batch_y
+    ######################################################################################
+    def get_scaler(self):
+        transformer = MinMaxScaler()
+        train_all_df = pd.DataFrame(columns=Input_columns)
         
+        for i in self.train_idx:
+            tmp_df = pd.DataFrame(self.get_x(i), columns=Input_columns)
+            train_all_df = pd.concat([train_all_df, tmp_df], ignore_index=True)
+            
+        scaler = transformer.fit(train_all_df.values)
+        
+        return scaler
+    
+    def get_scaled_train_data(self, scaler):
+        train_data = np.array([self.get_x(i) for i in self.train_idx if self.get_x(i).shape[0]==250])
+        
+        scaled_train_data=[]
+        for i in train_data:
+            scaled_train_data.append(scaler.transform(i))
+        
+        scaled_train_data = np.array(scaled_train_data)
+        
+        return scaled_train_data
+    
+    def get_scaled_test_data(self, scaler):
+        test_data = np.array([self.get_x(i) for i in self.test_idx if self.get_x(i).shape[0]==250])
+        
+        scaled_test_data=[]
+        for i in test_data:
+            scaled_test_data.append(scaler.transform(i))
+        
+        scaled_test_data = np.array(scaled_test_data)
+        
+        return scaled_test_data
