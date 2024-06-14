@@ -247,6 +247,7 @@ def get_lstm_model(n_timewindow, n_feature, latent_size) :
 
 def get_shallow_model(model_key, n_timewindow, n_feature, latent_size, layer=1) :
     model = Sequential()
+    '''
     if model_key == 'AE' :
         # model.add(Input(shape=(n_timewindow*n_feature,)))
         model.add(Input(shape=(n_timewindow,n_feature)))
@@ -264,6 +265,34 @@ def get_shallow_model(model_key, n_timewindow, n_feature, latent_size, layer=1) 
         model.add(Dense(latent_size, activation='relu'))
         if layer == 2 :
             model.add(Dense(int((n_timewindow*n_feature)/2), activation ='relu'))
+        elif layer == 3 :
+            model.add(Dense(int((n_timewindow*n_feature)/3), activation ='relu'))
+            model.add(Dense(int(((n_timewindow*n_feature)/3)*2), activation ='relu'))
+        elif layer == 4 :
+            model.add(Dense(int(((n_timewindow*n_feature)/4)*1), activation ='relu'))
+            model.add(Dense(int(((n_timewindow*n_feature)/4)*2), activation ='relu'))
+            model.add(Dense(int(((n_timewindow*n_feature)/4)*3), activation ='relu'))
+        model.add(Dense(n_timewindow*n_feature, activation='sigmoid'))
+        model.add(Reshape((n_timewindow, n_feature), input_shape=(n_timewindow*n_feature,)))
+    '''
+    if model_key == 'AE' :
+        # model.add(Input(shape=(n_timewindow*n_feature,)))
+        model.add(Input(shape=(n_timewindow,n_feature)))
+        model.add(Flatten())
+        if layer == 2 :
+            factor=1000
+            model.add(Dense(int((n_timewindow*n_feature)/factor), activation ='relu'))
+        elif layer == 3 :
+            model.add(Dense(int(((n_timewindow*n_feature)/3)*2), activation ='relu'))
+            model.add(Dense(int((n_timewindow*n_feature)/3), activation ='relu'))
+        elif layer == 4 :
+            model.add(Dense(int(((n_timewindow*n_feature)/4)*3), activation ='relu'))
+            model.add(Dense(int(((n_timewindow*n_feature)/4)*2), activation ='relu'))
+            model.add(Dense(int(((n_timewindow*n_feature)/4)*1), activation ='relu'))
+
+        model.add(Dense(latent_size, activation='relu'))
+        if layer == 2 :
+            model.add(Dense(int((n_timewindow*n_feature)/factor), activation ='relu'))
         elif layer == 3 :
             model.add(Dense(int((n_timewindow*n_feature)/3), activation ='relu'))
             model.add(Dense(int(((n_timewindow*n_feature)/3)*2), activation ='relu'))
@@ -318,13 +347,7 @@ def get_shallow_model(model_key, n_timewindow, n_feature, latent_size, layer=1) 
             model.add(Conv1D(1, 7, activation='relu', padding='same'))
         model.add(Conv1D(n_feature, 7, activation='relu', padding='same'))
 
-
-
-
-
-    print(model.summary())
-    import sys
-    sys.exit()
+    model.summary()
     return model
 
 if __name__ == '__main__' :

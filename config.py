@@ -34,7 +34,7 @@ Input_columns = [
     'AccDep', 
     'BrkDep',
     'EngRPM',
-    # 'LatAccel', 
+    'LatAccel', 
     'LongAccel',
     'VehSpdClu', 
 ]

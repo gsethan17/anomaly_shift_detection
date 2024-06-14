@@ -1,3 +1,4 @@
+from gc import callbacks
 import tensorflow as tf
 import numpy as np
 import matplotlib.pyplot as plt
@@ -5,6 +6,10 @@ from sklearn.metrics import accuracy_score, precision_score, recall_score, roc_a
 import sys
 import os
 os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+
+seed = 42
+tf.random.set_seed(seed)
+np.random.seed(seed)
 
 from model import get_shallow_model
 from data import DataLoader
@@ -35,15 +40,25 @@ def main(path):
     scaled_train_data = data_loader.get_scaled_train_data(scaler)
 
     model_keys = ['AE', 'RNN-AE', 'LSTM-AE', 'GRU-AE']
-    model_keys = ['LSTM-AE']
+    model_keys = ['LSTM-AE', 'GRU-AE']
+    
     adam = tf.keras.optimizers.Adam(learning_rate = 1e-4)
+    
     for model_key in model_keys :
-        hidden = 10
-        model = get_shallow_model(model_key, 250, 6, hidden, 2)
+        checkpoint_path = os.path.join("training/{}".format(model_key), "cp.ckpt")
+        checkpoint_dir = os.path.dirname(checkpoint_path)
+        cp_callback = tf.keras.callbacks.ModelCheckpoint(filepath=checkpoint_path,
+                                                        save_weights_only=True,
+                                                        verbose=1, 
+                                                        monitor='loss', 
+                                                        save_best_only=True)
+        hiddens = 10
+        features = 4
+        model = get_shallow_model(model_key, 250, features, hiddens, 2)
 
         model.compile(optimizer=adam, loss='mse')
         history = model.fit(x=scaled_train_data, y=scaled_train_data, 
-                            epochs=500, shuffle=True, batch_size=32)
+                            epochs=500, shuffle=True, batch_size=32, callbacks = [cp_callback])
         ###########################################################################
         scaled_test_data = data_loader.get_scaled_test_data(scaler)
         scaled_test_data0 = data_loader.get_scaled_test_data(scaler)[:len(np.where(test_Y==False)[0])]
@@ -66,7 +81,7 @@ def main(path):
         plt.xlabel("Test error")
         plt.ylabel("# of examples")
         plt.legend(['GT False', 'GT True'], loc='upper right')
-        plt.savefig(os.path.join(path, '{}_{}_{}_{:.3f}.png'.format(model_key, hidden, only_down_shift, auroc)))
+        plt.savefig(os.path.join(path, '{}_{}_{}_{:.3f}.png'.format(model_key, features, only_down_shift, auroc)))
         plt.clf()
         # plt.show()
         
