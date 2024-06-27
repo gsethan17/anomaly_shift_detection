@@ -1,0 +1,80 @@
+timestamp: 
+  SendTime
+timestamp2: 
+  Timestamp # RecvTime
+CF_Gway_HeadLampHigh: 
+  HeadLampHigh
+CF_Gway_HeadLampLow: 
+  HeadLampLow
+CF_Gway_TSigLHSw: 
+  IndLeft
+CF_Gway_TSigRHSw: 
+  IndRight
+CR_Hcu_HigFueEff_Pc: 
+  HigFueEff
+CR_Hcu_NorFueEff_Pc: 
+  NorFueEff
+CF_Hcu_DriveMode: 
+  DriveMode
+CR_Fatc_OutTempSns_C: 
+  OutTemp
+CR_Hcu_EcoLvl: 
+  EcoLvl
+CR_Hcu_FuelEco_MPG: 
+  FuelEconomy
+CR_Hcu_HevMod: 
+  HevMode
+CF_Ems_BrkForAct: 
+  BrkAct
+CR_Ems_EngColTemp_C: 
+  EngColTemp
+CYL_PRES: 
+  CylPres
+CYL_PRES_FLAG: 
+  CylPresAct
+LAT_ACCEL: 
+  LatAccel
+LONG_ACCEL: 
+  LongAccel
+YAW_RATE: 
+  YawRate
+WHL_SPD_FL: 
+  WhlSpdFL
+WHL_SPD_FR: 
+  WhlSpdFR
+WHL_SPD_RL: 
+  WhlSpdRL
+WHL_SPD_RR: 
+  WhlSpdRR
+CF_Ems_EngStat: 
+  EngStat
+CR_Brk_StkDep_Pc: 
+  BrkDep
+CR_Ems_AccPedDep_Pc: 
+  AccDep
+CR_Ems_EngSpd_rpm: 
+  EngRPM
+CR_Ems_FueCon_uL: 
+  FueCon
+CR_Ems_VehSpd_Kmh: 
+  VehSpdEms
+CF_Tcu_TarGe: 
+  TarGear
+SAS_Angle: 
+  SAS
+CF_Clu_Odometer: 
+  ODO
+CF_Clu_InhibitD: 
+  InhibitD
+CF_Clu_InhibitN: 
+  InhibitN
+CF_Clu_InhibitP: 
+  InhibitP
+CF_Clu_InhibitR: 
+  InhibitR
+CF_Clu_VehicleSpeed: 
+  VehSpdClu
+BAT_SOC:
+  BatSOC
+  
+  

@@ -136,11 +136,6 @@ class DataLoader(object):
         batch_x = np.array([self.get_x(i) for i in self.test_idx])
         batch_y = np.array([self.get_y(i) for i in self.test_idx])
         
-        print(np.array([self.get_x(i) for i in self.test_idx]))
-        print(self.test_idx)
-        sys.exit()
-        speed = self.test_idx
-        
         return batch_x, batch_y
     ######################################################################################
     def get_scaler(self):
@@ -157,6 +152,8 @@ class DataLoader(object):
     
     def get_scaled_train_data(self, scaler):
         train_data = np.array([self.get_x(i) for i in self.train_idx if self.get_x(i).shape[0]==250])
+        
+        print(train_data)
         
         scaled_train_data=[]
         for i in train_data:

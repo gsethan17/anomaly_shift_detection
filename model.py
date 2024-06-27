@@ -280,7 +280,7 @@ def get_shallow_model(model_key, n_timewindow, n_feature, latent_size, layer=1) 
         model.add(Input(shape=(n_timewindow,n_feature)))
         model.add(Flatten())
         if layer == 2 :
-            factor=1000
+            factor=2#1000
             model.add(Dense(int((n_timewindow*n_feature)/factor), activation ='relu'))
         elif layer == 3 :
             model.add(Dense(int(((n_timewindow*n_feature)/3)*2), activation ='relu'))

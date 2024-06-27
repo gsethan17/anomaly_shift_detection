@@ -1,0 +1,76 @@
+# BrkAct:
+#   - 'Off'
+#   - 'On'
+# CylPresAct:
+#   - 'Off'
+#   - 'On'
+# HeadLampHigh:
+#   - 'Off'
+#   - 'On'
+# HeadLampLow:
+#   - 'Off'
+#   - 'On'
+DriveMode:
+  - 'Eco'
+  - 'Normal'
+  - 'Sports'
+  - 'Invalid'
+# IndLeft:
+#   - 'Off'
+#   - 'On'
+# IndRight:
+#   - 'Off'
+#   - 'On'
+# HevMode:
+#   - 'None'
+#   - 'Vehicle Stop' 
+#   - 'EV Propulsion' 
+#   - 'Power Assist' 
+#   - 'Engine Only Propulsion' 
+#   - 'Engine Generation' 
+#   - 'Regeneration' 
+#   - 'Engine Brake' 
+#   - 'Power Researve'
+#   - 'Engine Generation/Motor Drive' 
+#   - 'Engine Generation/ Regeneration' 
+#   - 'Engine Brake / Regeneration'
+# EngStat:
+#   - 'ES(Engine Stop)'
+#   - 'ST(Start)'
+#   - 'IS(Idle speed)'
+#   - 'PL(Part Load)'
+#   - 'PU(Pull)'
+#   - 'PUC(Fuel Cut off)'
+# TarGear:
+#   - 'If N or P are detected(No frictional conncetion)'
+#   - '1st speed'
+#   - '2nd speed'
+#   - '3rd speed'
+#   - '4th speed'
+#   - '5th speed'
+#   - '6th speed'
+#   - 'Reverse'
+# InhibitD:
+#   - 'Off'
+#   - '(On)D'
+# InhibitN:
+#   - 'Off'
+#   - '(On)N'
+# InhibitP:
+#   - 'Off'
+#   - '(On)P'
+# InhibitR:
+#   - 'Off'
+#   - '(On)R'
+
+AccDep:
+  - 'Accelerator Pedal not activated'
+  - 'Accelerator Pedal fully activated'
+  - 'Accelerator Pedal is defective (fail state) or Non-ETC system (APS is not installed)'
+
+VehSpdClu:
+  - '0x0~0xFE:Speed' 
+  - 'Error'
+
+  
+  

@@ -30,11 +30,8 @@ COI = ['Time', 'CylPres', 'CylPresAct',
        ]
 
 # Columns of Inputs
-Input_columns = [
-    'AccDep', 
-    'BrkDep',
-    'EngRPM',
-    'LatAccel', 
-    'LongAccel',
-    'VehSpdClu', 
+Input_columns = ['Timestamp',
+    'TarGear', 'LatAccel', 'LongAccel', 'YawRate', 'SAS', 'EngStat',
+    'BrkDep', 'AccDep', 'EngRPM', 'WhlSpdFL', 'WhlSpdFR', 'WhlSpdRL',
+    'WhlSpdRR', 'EngColTemp', 'VehSpdClu'
 ]
